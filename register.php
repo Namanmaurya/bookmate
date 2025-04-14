@@ -6,11 +6,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
-    if (mysqli_query($conn, $sql)) {
-        $success_message = "Registration successful! <a href='login.php'>Login now</a>";
+    // Handle profile image upload
+    $image_name = $_FILES['profile_image']['name'];
+    $image_tmp = $_FILES['profile_image']['tmp_name'];
+    $image_path = 'uploads/' . time() . '_' . basename($image_name);
+
+    // Ensure uploads directory exists
+    if (!is_dir('uploads')) {
+        mkdir('uploads', 0755, true);
+    }
+
+    if (move_uploaded_file($image_tmp, $image_path)) {
+        // Insert user data into database
+        $sql = "INSERT INTO users (username, email, password, profile_image) 
+                VALUES ('$username', '$email', '$password', '$image_path')";
+        
+        if (mysqli_query($conn, $sql)) {
+            $success_message = "Registration successful! <a href='login.php'>Login now</a>";
+        } else {
+            $error_message = "Database Error: " . mysqli_error($conn);
+        }
     } else {
-        $error_message = "Error: " . mysqli_error($conn);
+        $error_message = "Image upload failed. Please try again.";
     }
 }
 ?>
@@ -98,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php endif; ?>
 
             <!-- Registration Form -->
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" name="username" id="username" class="form-control" required>
@@ -111,6 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
+                <div class="mb-3">
+                    <label for="profile_image" class="form-label">Profile Image</label>
+                    <input type="file" name="profile_image" id="profile_image" class="form-control" accept="image/*" required>
+                </div>
                 <button type="submit" class="btn register-btn">Register</button>
             </form>
 
@@ -121,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- Optional Bootstrap JS and Popper.js (if you plan to use Bootstrap JS components) -->
+    <!-- Optional Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>

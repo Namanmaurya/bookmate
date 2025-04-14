@@ -4,98 +4,143 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookMate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f0f8ff;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookMate</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #fff;
+      color: #111;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .hero-section {
-            background-color: #fffae6;
-            padding: 50px 0;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .navbar {
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-        .btn-custom {
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 25px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+    .navbar-brand {
+      font-weight: bold;
+      color: #111 !important;
+    }
 
-        .btn-primary {
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
+    .hero-section {
+      text-align: center;
+      padding: 60px 30px;
+      margin-top: 40px;
+      background-color: #f2f2f2;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+    }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
+    .btn-custom {
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #5a6268;
-        }
+    .btn-primary {
+      background-color: #000;
+      color: #fff;
+      border: none;
+    }
 
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #4e555b;
-        }
+    .btn-primary:hover {
+      background-color: #333;
+      color: #fff;
+    }
 
-        .container {
-            max-width: 800px;
-        }
+    .btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+    }
 
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-        }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
 
-        .card-header {
-            background-color: #fffae6;
-            font-weight: bold;
-        }
-    </style>
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      margin-top: 30px;
+    }
+
+    .card-header {
+        background-color: #f2f2f2;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
-    <div class="container mt-5 text-center">
-        <!-- Hero Section -->
-        <div class="hero-section text-center">
-            <h1 class="display-4 text-primary">Welcome to BookMate!</h1>
-            <p class="lead text-muted">Find your perfect match based on books, genres, and more.</p>
-        </div>
 
-        <!-- Conditional Buttons -->
-        <div class="card mt-5">
-            <div class="card-header text-center">
-                <?php if (!isset($_SESSION['user_id'])): ?>
-                    <h3>Start Your Journey with BookMate</h3>
-                <?php else: ?>
-                    <h3>Welcome Back to BookMate</h3>
-                <?php endif; ?>
-            </div>
-            <div class="card-body">
-                <?php if (!isset($_SESSION['user_id'])): ?>
-                    <a href="login.php" class="btn btn-primary btn-custom me-3">Login</a>
-                    <a href="register.php" class="btn btn-secondary btn-custom">Register</a>
-                <?php else: ?>
-                    <a href="profile.php" class="btn btn-primary btn-custom me-3">Go to Profile</a>
-                    <a href="logout.php" class="btn btn-danger btn-custom">Logout</a>
-                <?php endif; ?>
-            </div>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">📚 BookMate</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="hero-section">
+      <h1 class="display-4 fw-bold">Welcome to BookMate!</h1>
+      <p class="lead">Find your perfect match through shared book interests and genres.</p>
     </div>
 
-    <!-- Optional Bootstrap JS and Popper.js (if you plan to use Bootstrap JS components) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <div class="card text-center mt-5">
+      <div class="card-header">
+        <?php if (!isset($_SESSION['user_id'])): ?>
+          <h3>Start Your Journey with BookMate</h3>
+        <?php else: ?>
+          <h3>Welcome Back to BookMate</h3>
+        <?php endif; ?>
+      </div>
+      <div class="card-body">
+        <?php if (!isset($_SESSION['user_id'])): ?>
+          <a href="login.php" class="btn btn-primary btn-custom me-3">Login</a>
+          <a href="register.php" class="btn btn-secondary btn-custom">Register</a>
+        <?php else: ?>
+          <a href="profile.php" class="btn btn-primary btn-custom me-3">Go to Profile</a>
+          <a href="logout.php" class="btn btn-danger btn-custom">Logout</a>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; <?= date("Y") ?> BookMate. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
